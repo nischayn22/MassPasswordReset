@@ -17,7 +17,7 @@ class SpecialMassPasswordReset extends SpecialPage {
 		$out = $this->getOutput();
 
 		if ( !class_exists( "RandomLib\Factory" ) ) {
-			$out->addHTML( '<div class="errorbox">You must install RandomLib. Please check install Manual.</div>' );
+			$out->addHTML( '<div class="errorbox">You must install RandomLib. Run "composer require ircmaxell/random-lib" from your main directory.</div>' );
 			return;
 		}
 

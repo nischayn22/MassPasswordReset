@@ -3,7 +3,8 @@ A MediaWiki extension to Bulk Reset passwords for Users on MediaWiki from a CSV 
 
 # Installation
 
-	Download this repo
+	Download this repo on your extensions folder
+	Add the following on your LocalSettings.php: wfLoadExtension( 'MassPasswordReset' );
     Run the following command on your main directory: "composer require ircmaxell/random-lib"
 
 # Usage
