@@ -104,11 +104,18 @@ class SpecialMassPasswordReset extends SpecialPage {
 
 			$to = new MailAddress( $updated_row[1] );
 
-			$text = "Hi ". $updated_row[0] .", <br>Your password has been reset.<br>Please use the following login details: <br><br>Username: ". $updated_row[1] ."<br>Password:$password<br><br>Thanks, " . $this->getContext()->getUser();
+			$text = "Hi ". $updated_row[0] .",
+Your password has been reset.
+Please use the following login details:
+
+Username: ". $updated_row[0] ."
+Password: $password
+
+Thanks, " . $this->getContext()->getUser();
 
 			$status = UserMailer::send( $to, $from, "Your Password Has been Reset", $text );
 
-			if ( !$status->isGood() ) {
+			if ( $status->isGood() ) {
 				$out->addHTML( Html::element( 'td', array(), "Sent" ) );
 			} else {
 				$out->addHTML( Html::element( 'td', array(), "Failed" ) );
