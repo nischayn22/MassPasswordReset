@@ -1,0 +1,18 @@
+{
+	"name": "mediawiki/mass-password-reset",
+	"type": "mediawiki-extension",
+	"version": "1.0",
+	"license": "GPL-2.0-or-later",
+	"authors": [
+		{
+			"name": "Nischay Nahata",
+			"email": "nischayn22@gmail.com",
+			"homepage": "http://github.com/nischayn22",
+			"role": "Original author"
+		}
+	],
+    "require": {
+		"composer/installers": ">=1.0.1",
+		"ircmaxell/random-lib": "dev-master"
+    }
+}
