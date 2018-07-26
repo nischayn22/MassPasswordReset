@@ -35,7 +35,9 @@ class SpecialMassPasswordReset extends SpecialPage {
 		$out->addHTML(
 			Html::openElement( 'form', $formOpts ) . "<br>" .
 			Html::label( "Upload CSV","", array( "for" => "password_reset_csv" ) ) . "<br>" .
-			Html::element( 'input', array( "id" => "password_reset_csv", "name" => "password_reset_csv", "type" => "file" ) ) . "<br><br>"
+			Html::element( 'input', array( "id" => "password_reset_csv", "name" => "password_reset_csv", "type" => "file" ) ) . "<br><br>" .
+			Html::label( "New Password (Optional)", "", array( "for" => "new_password" ) ) . "<br>" .
+			Html::element( 'input', array( "id" => "new_password", "name" => "new_password", "type" => "text" ) ) . "<br><br>"
 		);
 		$out->addHTML(
 			Html::submitButton( "Submit", array() ) .
@@ -54,9 +56,13 @@ class SpecialMassPasswordReset extends SpecialPage {
 
 		$csv_array = array_map('str_getcsv', file( $request->getFileTempname( "password_reset_csv" ) ) );
 
-		$factory = new RandomLib\Factory;
-		$generator = $factory->getMediumStrengthGenerator();
-		$password = $generator->generateString( 8 );
+		$password = $request->getVal( 'new_password' );
+
+		if ( empty( $password ) ) {
+			$factory = new RandomLib\Factory;
+			$generator = $factory->getMediumStrengthGenerator();
+			$password = $generator->generateString( 8 );
+		}
 
 		$updated_array = array();
 		foreach( $csv_array as $csv_row ) {
@@ -69,6 +75,7 @@ class SpecialMassPasswordReset extends SpecialPage {
 				return;
 			}
 			try {
+				$user->setEmail( $csv_row[1] );
 				$status = $user->changeAuthenticationData( [
 					'username' => $user->getName(),
 					'password' => $password,
@@ -91,6 +98,7 @@ class SpecialMassPasswordReset extends SpecialPage {
 
 		$out->addHTML( Html::openElement( 'tr' ) );
 		$out->addHTML( Html::element( 'th', array(), "Username" ) );
+		$out->addHTML( Html::element( 'th', array(), "Updated Email" ) );
 		$out->addHTML( Html::element( 'th', array(), "Updated Password" ) );
 		$out->addHTML( Html::element( 'th', array(), "Mail Status" ) );
 		$out->addHTML( Html::closeElement( 'tr' ) );
@@ -100,6 +108,7 @@ class SpecialMassPasswordReset extends SpecialPage {
 		foreach( $updated_array as $updated_row ) {
 			$out->addHTML( Html::openElement( 'tr' ) );
 			$out->addHTML( Html::element( 'td', array(), $updated_row[0] ) );
+			$out->addHTML( Html::element( 'td', array(), $updated_row[1] ) );
 			$out->addHTML( Html::element( 'td', array(), $updated_row[2] ) );
 
 			$to = new MailAddress( $updated_row[1] );
@@ -112,6 +121,7 @@ Username: ". $updated_row[0] ."
 Password: $password
 
 Thanks, " . $this->getContext()->getUser();
+
 
 			$status = UserMailer::send( $to, $from, "Your Password Has been Reset", $text );
 
