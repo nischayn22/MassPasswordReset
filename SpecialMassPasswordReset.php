@@ -51,6 +51,8 @@ class SpecialMassPasswordReset extends SpecialPage {
 	}
 
 	public function handleUpload() {
+		global $wgPasswordSender;
+
 		$request = $this->getRequest();
 		$out = $this->getOutput();
 
@@ -75,7 +77,9 @@ class SpecialMassPasswordReset extends SpecialPage {
 				return;
 			}
 			try {
-				$user->setEmail( $csv_row[1] );
+				if ( !empty( $csv_row[1] ) ) {
+					$user->setEmail( $csv_row[1] );
+				}
 				$status = $user->changeAuthenticationData( [
 					'username' => $user->getName(),
 					'password' => $password,
@@ -103,7 +107,7 @@ class SpecialMassPasswordReset extends SpecialPage {
 		$out->addHTML( Html::element( 'th', array(), "Mail Status" ) );
 		$out->addHTML( Html::closeElement( 'tr' ) );
 
-		$from = MailAddress::newFromUser( $this->getContext()->getUser() );
+		$from = new MailAddress( $wgPasswordSender );
 
 		foreach( $updated_array as $updated_row ) {
 			$out->addHTML( Html::openElement( 'tr' ) );
