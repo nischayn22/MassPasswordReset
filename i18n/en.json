@@ -4,5 +4,7 @@
 			"Nischay Nahata"
 		]
 	},
-	"masspasswordreset": "Mass Password Reset"
+	"masspasswordreset": "Mass Password Reset",
+	"masspasswordreset_email_subject": "Your Password Has been Reset",
+	"masspasswordreset_email_body": "Hi $1, <br>Your password has been reset.<br>Please use the following login details:<br><br>Username: $1<br>Password: $2<br><br>Thanks,<br>$3"
 }
