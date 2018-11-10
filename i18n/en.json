@@ -6,5 +6,5 @@
 	},
 	"masspasswordreset": "Mass Password Reset",
 	"masspasswordreset_email_subject": "Your Password Has been Reset",
-	"masspasswordreset_email_body": "Hi $1, <br>Your password has been reset.<br>Please use the following login details:<br><br>Username: $1<br>Password: $2<br><br>Thanks,<br>$3"
+	"masspasswordreset_email_body": "Hi $1, \n\nYour password has been reset.\nPlease use the following login details:\nUsername: $1\nPassword: $2\n\nThanks,\n$3"
 }
