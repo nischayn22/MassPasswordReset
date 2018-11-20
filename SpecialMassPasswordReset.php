@@ -119,7 +119,7 @@ class SpecialMassPasswordReset extends SpecialPage {
 
 			$text = wfMessage( 'masspasswordreset_email_body', $updated_row[0], $password, $this->getContext()->getUser() )->parse();
 
-			$status = UserMailer::send( $to, $from, wfMessage( 'masspasswordreset_email_subject' )->parse(), $text );
+			$status = UserMailer::send( $to, $from, wfMessage( 'masspasswordreset_email_subject' )->parse(), $text, array( 'contentType' => 'text/html; charset=UTF-8' ) );
 
 			if ( $status->isGood() ) {
 				$out->addHTML( Html::element( 'td', array(), "Sent" ) );
