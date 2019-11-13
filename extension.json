@@ -20,5 +20,8 @@
 	"AutoloadClasses": {
 		"SpecialMassPasswordReset": "SpecialMassPasswordReset.php"
 	},
+	"config": {
+		"MassPasswordResetSender": null
+	},
 	"manifest_version": 1
 }
