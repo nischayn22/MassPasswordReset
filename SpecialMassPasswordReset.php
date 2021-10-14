@@ -1,8 +1,10 @@
 <?php
 
+use MediaWiki\MediaWikiServices;
+
 /**
- * 
- * 
+ *
+ *
  */
 class SpecialMassPasswordReset extends SpecialPage {
 	public function __construct() {
@@ -10,8 +12,9 @@ class SpecialMassPasswordReset extends SpecialPage {
 	}
 
 	/**
+	 * @inerhitDoc
 	 */
-	public function execute( $par ) {
+	public function execute( $subPage ) {
 		$this->setHeaders();
 		$request = $this->getRequest();
 		$out = $this->getOutput();
@@ -21,7 +24,8 @@ class SpecialMassPasswordReset extends SpecialPage {
 			return;
 		}
 
-		if( !in_array( 'sysop', $this->getUser()->getEffectiveGroups()) ) {
+		$ugm = MediaWikiServices::getInstance()->getUserGroupManager();
+		if( !in_array( 'sysop', $ugm->getUserEffectiveGroups( $this->getUser() ) ) ) { // TODO: Replace me with $ugm->userHasRight()
 			$out->addHTML( '<div class="errorbox">This page is only accessible by users with sysop right.</div>' );
 			return;
 		}
@@ -30,7 +34,7 @@ class SpecialMassPasswordReset extends SpecialPage {
 			'id' => 'password_reset',
 			'method' => 'post',
 			"enctype" => "multipart/form-data",
-			'action' => $this->getTitle()->getFullUrl()
+			'action' => $this->getPageTitle()->getFullUrl()
 		];
 		$out->addHTML(
 			Html::openElement( 'form', $formOpts ) . "<br>" .
