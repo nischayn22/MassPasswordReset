@@ -3,7 +3,7 @@
 	"author": [
 		"Nischay Nahata"
 	],
-	"url": "https://www.mediawiki.org/wiki/Extension:MassPasswordReset",
+	"url": "https://github.com/nischayn22/MassPasswordReset#masspasswordreset",
 	"license-name": "GPL-2.0-or-later",
 	"type": "specialpage",
 	"requires": {
